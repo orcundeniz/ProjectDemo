@@ -8,8 +8,9 @@
 
 import UIKit
 
-class Tab2Controller: UIViewController,UITableViewDelegate, UITableViewDataSource {
 
+class Tab2Controller: UIViewController,UITableViewDelegate, UITableViewDataSource {
+    
     
     @IBOutlet weak var countLabel2: UILabel!
     
@@ -19,17 +20,20 @@ class Tab2Controller: UIViewController,UITableViewDelegate, UITableViewDataSourc
     var tableArray = ["10","20","30","40","50"]
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView2.dataSource = self
         tableView2.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
-      super.viewWillAppear(animated)
-        countLabel2.text = UserDefaults.standard.string(forKey: "count")
+        super.viewWillAppear(animated)
+        
+        // coins ile UserDefaults'a kaydettiğin değeri eşlememişsin hiç. Bu yüzden senkron hareket etmiyorlar. Burada onu düzeltiyoruz.
+        coins = UserDefaults.standard.integer(forKey: "count")
+        countLabel2.text = coins.toString()
     }
     
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableArray.count
     }
@@ -45,39 +49,39 @@ class Tab2Controller: UIViewController,UITableViewDelegate, UITableViewDataSourc
         
         if indexPath.row == 0{
             
-            UserDefaults.standard.set(countLabel2.text, forKey: "count")
+            // Burada da önceki değeri kaydetip sonra değeri arttırmışsın. Böylece ekranda 20 yazıyor iken aslında UserDefaults'daki değer 10. Önce değeri arttır sonra UserDefaults'a kaydettim ve en sonda da ekrana bastırdım bu değeri.
             coins += 10
-            countLabel2.text = "\(coins)"
-
-            
+            UserDefaults.standard.set(coins, forKey: "count")
+            countLabel2.text = coins.toString()
+      
         }else if indexPath.row == 1{
             
-            UserDefaults.standard.set(countLabel2.text, forKey: "count")
             coins += 20
-            countLabel2.text = "\(coins)"
-
+            UserDefaults.standard.set(coins, forKey: "count")
+            countLabel2.text = coins.toString()
+            
             
         }else if indexPath.row == 2{
             
-            UserDefaults.standard.set(countLabel2.text, forKey: "count")
-             coins += 30
-             countLabel2.text = "\(coins)"
+            coins += 30
+            UserDefaults.standard.set(coins, forKey: "count")
+            countLabel2.text = coins.toString()
             
-        
+            
         }else if indexPath.row == 3{
             
-            UserDefaults.standard.set(countLabel2.text, forKey: "count")
-             coins += 40
-             countLabel2.text = "\(coins)"
-        
+            coins += 40
+            UserDefaults.standard.set(coins, forKey: "count")
+            countLabel2.text = coins.toString()
+            
         }else if indexPath.row == 4{
             
-            UserDefaults.standard.set(countLabel2.text, forKey: "count")
-             coins += 50
-             countLabel2.text = "\(coins)"
+            coins += 50
+            UserDefaults.standard.set(coins, forKey: "count")
+            countLabel2.text = coins.toString()
             
         }
         
     }
-
+    
 }
